@@ -80,7 +80,6 @@ pipeline {
                // milestone 3
             }
         }
-    }
 
      post {
             success {
