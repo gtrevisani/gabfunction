@@ -1,0 +1,103 @@
+pipeline {
+    agent none
+
+    options {
+        buildDiscarder(logRotator(daysToKeepStr: '366'))
+    }
+
+    stages {
+        stage('Checkout') {
+            agent {label 'genesys'}
+
+            steps {
+                script {
+                    currentBuild.displayName = "Build ${ENV:BUILD_NUMBER}"
+                    currentBuild.description = "Build ${ENV:BUILD_NUMBER}, for commit ${ENV:GIT_COMMIT}"
+                }
+
+                checkout scm
+                echo 'Checking out repo...'
+
+                //stash includes: '**/*', name: 'genesys_uc1_review', excludes: '**/.git/**'
+
+                //milestone 1
+            }
+        }
+
+        stage('Install') {
+            agent {label 'genesys'}
+
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              }
+            }
+          
+            steps {
+                 
+                sh '''
+                cd Code
+                npm ci
+                '''
+                
+               // milestone 2
+            }
+
+            
+        }
+        
+        stage('Build') {
+            agent {label 'genesys'}
+
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              }
+            }
+            steps {
+                sh '''
+                cd Code
+                npm run build
+                '''
+                }
+
+               // milestone 3
+            }
+        }
+
+        stage('Zip') {
+            agent {label 'genesys'}
+
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
+              }
+            }
+            steps {
+                zip zipFile: 'C:\\temp\\deploy.zip', archive: false, dir: 'Code', overwrite:true
+                }
+
+               // milestone 3
+            }
+        }
+    }
+
+     post {
+            success {
+               withCredentials([usernamePassword(credentialsId: 'TerraformApp', 
+                          passwordVariable: 'AZURE_CLIENT_SECRET', 
+                          usernameVariable: 'AZURE_CLIENT_ID')]) {
+            sh '''
+              # Login to Azure with ServicePrincipal
+              az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
+              # Set default subscription
+              az account set --subscription $AZURE_SUBSCRIPTION_ID
+              # Execute publish
+              #func azure functionapp publish $AZURE_FUNCTION_APP
+              az functionapp deployment source config-zip --name $AZURE_FUNCTION_APP --src 'C:\\temp\\deploy.zip' --resource-group $AZURE_RESOURCE_GROUP
+              # Logout from Azure
+              az logout
+            '''
+          }
+        }
+}
