@@ -63,7 +63,6 @@ pipeline {
 
                // milestone 3
             }
-        }
 
         stage('Zip') {
             agent {label 'genesys'}
