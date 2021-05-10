@@ -1,0 +1,14 @@
+{
+  "bindings": [
+    {
+      "type": "eventHubTrigger",
+      "name": "eventHubMessages",
+      "direction": "in",
+      "eventHubName": "table",
+      "connection": "teststgab_RootManageSharedAccessKey_EVENTHUB",
+      "cardinality": "many",
+      "consumerGroup": "$Default"
+    }
+  ],
+  "scriptFile": "../dist/EventHubTriggerReadMessage/index.js"
+}
