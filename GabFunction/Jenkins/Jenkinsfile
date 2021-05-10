@@ -7,7 +7,7 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            agent {label 'genesys'}
+            //agent {label 'genesys'}
 
             steps {
                 script {
@@ -25,7 +25,7 @@ pipeline {
         }
 
         stage('Install') {
-            agent {label 'genesys'}
+            //agent {label 'genesys'}
 
             when {
               expression {
@@ -47,7 +47,7 @@ pipeline {
         }
         
         stage('Build') {
-            agent {label 'genesys'}
+            //agent {label 'genesys'}
 
             when {
               expression {
@@ -65,7 +65,7 @@ pipeline {
             }
 
         stage('Zip') {
-            agent {label 'genesys'}
+            //agent {label 'genesys'}
 
             when {
               expression {
