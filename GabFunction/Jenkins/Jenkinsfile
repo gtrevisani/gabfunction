@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout') {
             agent any
             //agent {label 'genesys'}
-
+              steps {
                 checkout scm
                 echo 'Checking out repo...'
 
@@ -17,6 +17,7 @@ pipeline {
 
                 //milestone 1
             }
+             }
         }
 
  /*       stage('Install') {
