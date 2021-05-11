@@ -57,9 +57,9 @@ pipeline {
 
             
             steps {
-                script {
+               
                 zip zipFile: 'C:\\temp\\deploy.zip', archive: false, dir: 'GabFunction/Code', overwrite:true
-                }
+               
                 }
 
                // milestone 3
