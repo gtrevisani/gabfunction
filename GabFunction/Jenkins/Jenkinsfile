@@ -26,7 +26,7 @@ pipeline {
             steps {
                  
                 sh '''
-                cd Code
+                cd GabFunction/Code
                 npm ci
                 '''
                 
@@ -43,7 +43,7 @@ pipeline {
       
             steps {
                 sh '''
-                cd Code
+                cd GabFunction/Code
                 npm run build
                 '''
                 }
@@ -57,7 +57,7 @@ pipeline {
             
             steps {
                 script {
-                zip zipFile: 'C:\\temp\\deploy.zip', archive: false, dir: 'Code', overwrite:true
+                zip zipFile: 'C:\\temp\\deploy.zip', archive: false, dir: 'GabFunction/Code', overwrite:true
                 }
                 }
 
