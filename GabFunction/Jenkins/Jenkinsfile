@@ -20,14 +20,10 @@ pipeline {
              }
         }
 
- /*       stage('Install') {
+        stage('Install') {
+            agent any
             //agent {label 'genesys'}
 
-            when {
-              expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
-              }
-            }
           
             steps {
                  
@@ -43,13 +39,10 @@ pipeline {
         }
         
         stage('Build') {
+            agent any
             //agent {label 'genesys'}
 
-            when {
-              expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
-              }
-            }
+      
             steps {
                 sh '''
                 cd Code
@@ -63,11 +56,7 @@ pipeline {
         stage('Zip') {
             //agent {label 'genesys'}
 
-            when {
-              expression {
-                currentBuild.result == null || currentBuild.result == 'SUCCESS' 
-              }
-            }
+            
             steps {
                 zip zipFile: 'C:\\temp\\deploy.zip', archive: false, dir: 'Code', overwrite:true
                 }
@@ -76,7 +65,7 @@ pipeline {
             }
         }
 
-     post {
+  /*   post {
             success {
                withCredentials([usernamePassword(credentialsId: 'TerraformApp', 
                           passwordVariable: 'AZURE_CLIENT_SECRET', 
