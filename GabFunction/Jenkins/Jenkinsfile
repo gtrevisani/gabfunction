@@ -18,9 +18,7 @@ pipeline {
                 //milestone 1
             }
              }
-        }
-
-        stage('Install') {
+       stage('Install') {
             agent any
             //agent {label 'genesys'}
 
