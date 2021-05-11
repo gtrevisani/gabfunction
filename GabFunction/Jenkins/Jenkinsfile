@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
-        stage('Install') {
+ /*       stage('Install') {
             //agent {label 'genesys'}
 
             when {
@@ -97,6 +97,6 @@ pipeline {
               az logout
             '''
           }
-        }
+        }*/
 }
 }
