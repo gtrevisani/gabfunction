@@ -9,12 +9,6 @@ pipeline {
         stage('Checkout') {
             //agent {label 'genesys'}
 
-            steps {
-                script {
-                    currentBuild.displayName = "Build ${ENV:BUILD_NUMBER}"
-                    currentBuild.description = "Build ${ENV:BUILD_NUMBER}, for commit ${ENV:GIT_COMMIT}"
-                }
-
                 checkout scm
                 echo 'Checking out repo...'
 
