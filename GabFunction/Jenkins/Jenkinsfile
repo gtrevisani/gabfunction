@@ -52,6 +52,7 @@ pipeline {
             }
 
         stage('Zip') {
+            agent any
             //agent {label 'genesys'}
 
             
